@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>Shobhit's Web Code Studio</title>
+
+<!-- CodeMirror -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/material-darker.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closebrackets.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closetag.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/matchbrackets.min.js"></script>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#090d0b;
+    color:#fff;
+    transition:.25s;
+}
+
+body.light{
+    background:#f4f6f8;
+    color:#111;
+}
+
+/* HEADER */
+
+.header{
+    height:64px;
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 10px;
+    background:#0d120f;
+    border-bottom:1px solid #263029;
+}
+
+body.light .header{
+    background:#fff;
+    border-bottom:1px solid #d7dce0;
+}
+
+.logo-area{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    min-width:0;
+}
+
+.logo{
+    width:40px;
+    height:40px;
+    border-radius:12px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#102a20;
+    color:#00e89a;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.title-area{
+    min-width:0;
+}
+
+.app-title{
+    font-size:17px;
+    font-weight:bold;
+    white-space:nowrap;
+}
+
+.subtitle{
+    font-size:10px;
+    color:#8b9891;
+    margin-top:2px;
+}
+
+.actions{
+    display:flex;
+    align-items:center;
+    gap:7px;
+}
+
+.icon-btn{
+    width:40px;
+    height:40px;
+    border:1px solid #39423d;
+    border-radius:11px;
+    background:#202720;
+    color:#fff;
+    font-size:18px;
+    cursor:pointer;
+}
+
+body.light .icon-btn{
+    background:#fff;
+    color:#111;
+    border-color:#c8ced2;
+}
+
+.run-btn{
+    height:40px;
+    padding:0 15px;
+    border:0;
+    border-radius:11px;
+    background:#ec2671;
+    color:#fff;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:active{
+    transform:scale(.96);
+}
+
+/* TABS */
+
+.tabs{
+    height:48px;
+    display:flex;
+    background:#101511;
+    border-bottom:1px solid #29312c;
+    overflow-x:auto;
+}
+
+body.light .tabs{
+    background:#fff;
+    border-bottom:1px solid #d8dde1;
+}
+
+.tab{
+    min-width:112px;
+    padding:0 14px;
+    height:48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    color:#89948e;
+    border-right:1px solid #29312c;
+    cursor:pointer;
+    font-size:13px;
+    font-weight:600;
+    user-select:none;
+}
+
+body.light .tab{
+    border-right:1px solid #d8dde1;
+}
+
+.tab.active{
+    color:#00e89a;
+    border-bottom:2px solid #00e89a;
+    background:#121a15;
+}
+
+body.light .tab.active{
+    background:#f0faf6;
+}
+
+/* EDITOR */
+
+.editor-container{
+    position:absolute;
+    left:0;
+    right:0;
+    top:112px;
+    bottom:0;
+    overflow:hidden;
+}
+
+.editor-box{
+    width:100%;
+    height:100%;
+    display:none;
+}
+
+.editor-box.active{
+    display:block;
+}
+
+/* CodeMirror */
+
+.CodeMirror{
+    width:100%;
+    height:100%;
+    font-size:15px;
+    line-height:1.45;
+    font-family:monospace;
+}
+
+/* DARK EDITOR */
+
+body:not(.light) .CodeMirror{
+    background:#090d0b;
+    color:#f8f8f2;
+}
+
+body:not(.light) .CodeMirror-gutters{
+    background:#090d0b !important;
+    border-right:1px solid #202821 !important;
+}
+
+/* LIGHT EDITOR */
+
+body.light .CodeMirror{
+    background:#fff !important;
+    color:#222 !important;
+}
+
+body.light .CodeMirror-gutters{
+    background:#f4f6f8 !important;
+    border-right:1px solid #d7dce0 !important;
+}
+
+body.light .CodeMirror-linenumber{
+    color:#7d858c !important;
+}
+
+body.light .CodeMirror-cursor{
+    border-left:2px solid #222 !important;
+}
+
+/* Light syntax colours */
+
+body.light .cm-tag{
+    color:#d73a49 !important;
+}
+
+body.light .cm-bracket{
+    color:#555 !important;
+}
+
+body.light .cm-attribute{
+    color:#6f42c1 !important;
+}
+
+body.light .cm-string{
+    color:#22863a !important;
+}
+
+body.light .cm-comment{
+    color:#6a737d !important;
+}
+
+body.light .cm-keyword{
+    color:#d73a49 !important;
+}
+
+body.light .cm-def{
+    color:#6f42c1 !important;
+}
+
+body.light .cm-variable{
+    color:#005cc5 !important;
+}
+
+body.light .cm-property{
+    color:#005cc5 !important;
+}
+
+body.light .cm-number{
+    color:#005cc5 !important;
+}
+
+body.light .cm-operator{
+    color:#d73a49 !important;
+}
+
+/* OUTPUT */
+
+.output{
+    position:absolute;
+    left:0;
+    right:0;
+    top:112px;
+    bottom:0;
+    display:none;
+    background:#fff;
+}
+
+.output.active{
+    display:block;
+}
+
+#preview{
+    width:100%;
+    height:100%;
+    border:0;
+    background:#fff;
+}
+
+/* KEYBOARD TOOLBAR */
+
+.keyboard-toolbar{
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    min-height:54px;
+    z-index:9999;
+
+    display:none;
+    align-items:center;
+    gap:6px;
+
+    padding:6px 8px;
+
+    background:#202722;
+    border-top:1px solid #3b463f;
+
+    overflow-x:auto;
+    overflow-y:hidden;
+
+    box-shadow:0 -5px 20px rgba(0,0,0,.35);
+}
+
+.keyboard-toolbar.show{
+    display:flex;
+}
+
+body.light .keyboard-toolbar{
+    background:#e8ecea;
+    border-top:1px solid #c5ccc8;
+}
+
+.tool-btn{
+    flex:0 0 auto;
+    min-width:45px;
+    height:41px;
+
+    border:1px solid #3b453f;
+    border-radius:8px;
+
+    background:#303832;
+    color:#fff;
+
+    font-size:15px;
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+body.light .tool-btn{
+    background:#fff;
+    color:#111;
+    border-color:#c8cfcb;
+}
+
+.tool-btn.wide{
+    min-width:58px;
+}
+
+.tool-btn.special{
+    color:#00e89a;
+}
+
+/* MOBILE */
+
+@media(max-width:500px){
+
+    .header{
+        height:64px;
+        padding:0 8px;
+    }
+
+    .logo{
+        width:38px;
+        height:38px;
+    }
+
+    .app-title{
+        font-size:15px;
+    }
+
+    .subtitle{
+        font-size:9px;
+    }
+
+    .icon-btn{
+        width:38px;
+        height:38px;
+    }
+
+    .run-btn{
+        height:40px;
+        padding:0 13px;
+    }
+
+    .CodeMirror{
+        font-size:14px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header class="header">
+
+    <div class="logo-area">
+
+        <div class="logo">
+            &lt;/&gt;
+        </div>
+
+        <div class="title-area">
+
+            <div class="app-title">
+                Shobhit's Web Code Studio
+            </div>
+
+            <div class="subtitle">
+                HTML • CSS • JavaScript
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="actions">
+
+        <button class="icon-btn"
+                onclick="showHelp()">
+            ?
+        </button>
+
+        <button id="themeBtn"
+                class="icon-btn"
+                onclick="toggleTheme()">
+            ☾
+        </button>
+
+        <button class="run-btn"
+                onclick="runCode()">
+            ▶ RUN
+        </button>
+
+    </div>
+
+</header>
+
+<!-- TABS -->
+
+<div class="tabs">
+
+    <div class="tab active"
+         data-tab="html"
+         onclick="switchTab('html')">
+
+        <span>〈〉</span>
+        <span>index.html</span>
+
+    </div>
+
+    <div class="tab"
+         data-tab="css"
+         onclick="switchTab('css')">
+
+        <span>#</span>
+        <span>styles.css</span>
+
+    </div>
+
+    <div class="tab"
+         data-tab="js"
+         onclick="switchTab('js')">
+
+        <span>JS</span>
+        <span>script.js</span>
+
+    </div>
+
+    <div class="tab"
+         data-tab="output"
+         onclick="switchTab('output')">
+
+        <span>▶</span>
+        <span>Output</span>
+
+    </div>
+
+</div>
+
+<!-- EDITORS -->
+
+<div class="editor-container">
+
+    <div id="html-editor"
+         class="editor-box active"></div>
+
+    <div id="css-editor"
+         class="editor-box"></div>
+
+    <div id="js-editor"
+         class="editor-box"></div>
+
+</div>
+
+<!-- OUTPUT -->
+
+<div id="output"
+     class="output">
+
+    <iframe id="preview"
+            sandbox="allow-scripts allow-forms allow-modals">
+    </iframe>
+
+</div>
+
+<!-- MOBILE CODING TOOLBAR -->
+
+<div id="keyboardToolbar"
+     class="keyboard-toolbar">
+
+    <button class="tool-btn special"
+            onclick="editorAction('cursorUp')">↑</button>
+
+    <button class="tool-btn special"
+            onclick="editorAction('cursorDown')">↓</button>
+
+    <button class="tool-btn special"
+            onclick="editorAction('cursorLeft')">←</button>
+
+    <button class="tool-btn special"
+            onclick="editorAction('cursorRight')">→</button>
+
+    <button class="tool-btn wide"
+            onclick="insertText('\t')">TAB</button>
+
+    <button class="tool-btn"
+            onclick="insertText('(')">(</button>
+
+    <button class="tool-btn"
+            onclick="insertText(')')">)</button>
+
+    <button class="tool-btn"
+            onclick="insertText('{')">{</button>
+
+    <button class="tool-btn"
+            onclick="insertText('}')">}</button>
+
+    <button class="tool-btn"
+            onclick="insertText('<')">&lt;</button>
+
+    <button class="tool-btn"
+            onclick="insertText('>')">&gt;</button>
+
+    <button class="tool-btn"
+            onclick="insertText('/')">/</button>
+
+    <button class="tool-btn"
+            onclick="insertText('=')">=</button>
+
+    <button class="tool-btn"
+            onclick="insertText('&quot;')">"</button>
+
+    <button class="tool-btn"
+            onclick="insertText(&quot;'&quot;)">'</button>
+
+</div>
+
+<script>
+
+/* ================================
+   DEFAULT CODE
+================================ */
+
+const defaultHTML = `<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello, World!</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <h1 class="title">Hello World!</h1>
+
+    <p id="currentTime"></p>
+
+</body>
+</html>`;
+
+
+const defaultCSS = `body{
+    padding:25px;
+}
+
+.title{
+    color:#5C6AC4;
+}`;
+
+
+const defaultJS = `function showTime(){
+
+    document.getElementById("currentTime").innerHTML =
+        new Date().toUTCString();
+
+}
+
+showTime();
+
+setInterval(function(){
+
+    showTime();
+
+},1000);`;
+
+
+/* ================================
+   IN-MEMORY STORAGE
+   (localStorage is not available in
+   this preview environment, so saved
+   code lives in memory for this session)
+================================ */
+
+const memoryStore = {
+    html:null,
+    css:null,
+    js:null,
+    theme:null
+};
+
+
+/* ================================
+   EDITORS
+================================ */
+
+let editors = {};
+
+let currentEditor = null;
+
+let currentTab = "html";
+
+
+const tabExtraKeys = {
+    "Tab":function(cm){
+        cm.replaceSelection("  ");
+    },
+    "Shift-Tab":function(cm){
+        cm.indentSelection("subtract");
+    }
+};
+
+
+function createEditors(){
+
+    editors.html = CodeMirror(
+        document.getElementById("html-editor"),
+        {
+            value:defaultHTML,
+            mode:"xml",
+            theme:"material-darker",
+            lineNumbers:true,
+            lineWrapping:false,
+            autoCloseBrackets:true,
+            autoCloseTags:true,
+            matchBrackets:true,
+            tabSize:2,
+            indentUnit:2,
+            indentWithTabs:false,
+            autofocus:false,
+
+            extraKeys:tabExtraKeys
+        }
+    );
+
+
+    editors.css = CodeMirror(
+        document.getElementById("css-editor"),
+        {
+            value:defaultCSS,
+            mode:"css",
+            theme:"material-darker",
+            lineNumbers:true,
+            lineWrapping:false,
+            autoCloseBrackets:true,
+            matchBrackets:true,
+            tabSize:2,
+            indentUnit:2,
+            indentWithTabs:false,
+
+            extraKeys:tabExtraKeys
+        }
+    );
+
+
+    editors.js = CodeMirror(
+        document.getElementById("js-editor"),
+        {
+            value:defaultJS,
+            mode:"javascript",
+            theme:"material-darker",
+            lineNumbers:true,
+            lineWrapping:false,
+            autoCloseBrackets:true,
+            matchBrackets:true,
+            tabSize:2,
+            indentUnit:2,
+            indentWithTabs:false,
+
+            extraKeys:tabExtraKeys
+        }
+    );
+
+
+    editors.html.on("focus",function(){
+        currentEditor=editors.html;
+        showKeyboardToolbar();
+    });
+
+    editors.css.on("focus",function(){
+        currentEditor=editors.css;
+        showKeyboardToolbar();
+    });
+
+    editors.js.on("focus",function(){
+        currentEditor=editors.js;
+        showKeyboardToolbar();
+    });
+
+
+    editors.html.on("change",saveCode);
+    editors.css.on("change",saveCode);
+    editors.js.on("change",saveCode);
+}
+
+
+/* ================================
+   TAB SWITCH
+================================ */
+
+function switchTab(tab){
+
+    currentTab=tab;
+
+    document.querySelectorAll(".tab").forEach(function(item){
+        item.classList.remove("active");
+    });
+
+    const selected=document.querySelector(
+        '.tab[data-tab="'+tab+'"]'
+    );
+
+    if(selected){
+        selected.classList.add("active");
+    }
+
+
+    document.querySelectorAll(".editor-box").forEach(function(item){
+        item.classList.remove("active");
+    });
+
+    document.getElementById("output")
+        .classList.remove("active");
+
+
+    if(tab==="html"){
+
+        document.getElementById("html-editor")
+            .classList.add("active");
+
+        currentEditor=editors.html;
+
+    }
+
+    else if(tab==="css"){
+
+        document.getElementById("css-editor")
+            .classList.add("active");
+
+        currentEditor=editors.css;
+
+    }
+
+    else if(tab==="js"){
+
+        document.getElementById("js-editor")
+            .classList.add("active");
+
+        currentEditor=editors.js;
+
+    }
+
+    else if(tab==="output"){
+
+        document.getElementById("output")
+            .classList.add("active");
+
+        hideKeyboardToolbar();
+
+        currentEditor=null;
+
+        return;
+    }
+
+
+    if(currentEditor){
+
+        setTimeout(function(){
+
+            currentEditor.refresh();
+            currentEditor.focus();
+
+        },50);
+
+    }
+}
+
+
+/* ================================
+   RUN CODE
+================================ */
+
+function runCode(){
+
+    const htmlCode=editors.html.getValue();
+
+    const cssCode=editors.css.getValue();
+
+    const jsCode=editors.js.getValue();
+
+
+    /*
+       HTML editor contains a complete HTML document.
+       We only take its BODY content for the preview.
+    */
+
+    const parser=new DOMParser();
+
+    const doc=parser.parseFromString(
+        htmlCode,
+        "text/html"
+    );
+
+
+    const bodyContent=doc.body
+        ? doc.body.innerHTML
+        : htmlCode;
+
+
+    const fullPage=`<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<style>
+${cssCode}
+</style>
+
+</head>
+
+<body>
+
+${bodyContent}
+
+<script>
+${jsCode}
+<\/script>
+
+</body>
+</html>`;
+
+
+    const preview=document.getElementById("preview");
+
+    preview.srcdoc=fullPage;
+
+    switchTab("output");
+}
+
+
+/* ================================
+   INSERT TEXT
+================================ */
+
+function insertText(text){
+
+    if(!currentEditor){
+        return;
+    }
+
+    currentEditor.focus();
+
+    currentEditor.replaceSelection(text);
+}
+
+
+/* ================================
+   CURSOR
+================================ */
+
+function editorAction(action){
+
+    if(!currentEditor){
+        return;
+    }
+
+    currentEditor.focus();
+
+    const cursor=currentEditor.getCursor();
+
+    if(action==="cursorUp"){
+
+        currentEditor.setCursor(
+            Math.max(0,cursor.line-1),
+            cursor.ch
+        );
+
+    }
+
+    else if(action==="cursorDown"){
+
+        const maxLine=currentEditor.lineCount()-1;
+
+        currentEditor.setCursor(
+            Math.min(maxLine,cursor.line+1),
+            cursor.ch
+        );
+
+    }
+
+    else if(action==="cursorLeft"){
+
+        if(cursor.ch>0){
+
+            currentEditor.setCursor(
+                cursor.line,
+                cursor.ch-1
+            );
+
+        }
+        else if(cursor.line>0){
+
+            const prevLine=currentEditor.getLine(cursor.line-1);
+
+            currentEditor.setCursor(
+                cursor.line-1,
+                prevLine.length
+            );
+
+        }
+
+    }
+
+    else if(action==="cursorRight"){
+
+        const line=currentEditor.getLine(cursor.line);
+
+        if(cursor.ch<line.length){
+
+            currentEditor.setCursor(
+                cursor.line,
+                cursor.ch+1
+            );
+
+        }
+        else if(cursor.line<currentEditor.lineCount()-1){
+
+            currentEditor.setCursor(
+                cursor.line+1,
+                0
+            );
+
+        }
+
+    }
+}
+
+
+/* ================================
+   SAVE (in-memory, per session)
+================================ */
+
+function saveCode(){
+
+    if(!editors.html){
+        return;
+    }
+
+    memoryStore.html = editors.html.getValue();
+    memoryStore.css  = editors.css.getValue();
+    memoryStore.js   = editors.js.getValue();
+}
+
+
+/* ================================
+   LOAD (in-memory, per session)
+================================ */
+
+function loadSavedCode(){
+
+    if(memoryStore.html!==null){
+        editors.html.setValue(memoryStore.html);
+    }
+
+    if(memoryStore.css!==null){
+        editors.css.setValue(memoryStore.css);
+    }
+
+    if(memoryStore.js!==null){
+        editors.js.setValue(memoryStore.js);
+    }
+}
+
+
+/* ================================
+   DAY / DARK MODE
+================================ */
+
+function updateEditorTheme(){
+
+    const light=document.body.classList.contains("light");
+
+    const theme=light
+        ? "default"
+        : "material-darker";
+
+
+    Object.values(editors).forEach(function(editor){
+
+        editor.setOption(
+            "theme",
+            theme
+        );
+
+        editor.refresh();
+
+    });
+
+
+    const themeBtn=document.getElementById("themeBtn");
+
+    if(themeBtn){
+
+        themeBtn.innerHTML=light
+            ? "☀"
+            : "☾";
+
+    }
+}
+
+
+function toggleTheme(){
+
+    document.body.classList.toggle("light");
+
+    const light=document.body.classList.contains("light");
+
+    memoryStore.theme = light ? "light" : "dark";
+
+    updateEditorTheme();
+}
+
+
+/* ================================
+   KEYBOARD TOOLBAR
+================================ */
+
+const toolbar=
+    document.getElementById("keyboardToolbar");
+
+
+function showKeyboardToolbar(){
+
+    if(currentTab==="output"){
+        return;
+    }
+
+    toolbar.classList.add("show");
+
+    positionToolbar();
+}
+
+
+function hideKeyboardToolbar(){
+
+    toolbar.classList.remove("show");
+
+    toolbar.style.bottom="0px";
+}
+
+
+function positionToolbar(){
+
+    if(!window.visualViewport){
+        return;
+    }
+
+    if(currentTab==="output"){
+        return;
+    }
+
+    const viewport=window.visualViewport;
+
+    const keyboardHeight=
+        window.innerHeight-viewport.height;
+
+
+    if(keyboardHeight>100){
+
+        toolbar.style.bottom=
+            keyboardHeight+"px";
+
+        toolbar.classList.add("show");
+
+    }
+    else{
+
+        toolbar.style.bottom="0px";
+
+    }
+}
+
+
+if(window.visualViewport){
+
+    window.visualViewport.addEventListener(
+        "resize",
+        positionToolbar
+    );
+
+    window.visualViewport.addEventListener(
+        "scroll",
+        positionToolbar
+    );
+}
+
+
+/* ================================
+   HELP
+================================ */
+
+function showHelp(){
+
+    alert(
+`Shobhit's Web Code Studio
+
+HTML -> HTML code
+CSS -> CSS code
+JS -> JavaScript code
+Output -> Website result
+
+RUN -> Code run karega
+
+Day / Dark button -> Theme change
+
+Code is saved for this session (in memory).`
+    );
+}
+
+
+/* ================================
+   INITIALIZE
+================================ */
+
+window.addEventListener(
+    "load",
+    function(){
+
+        createEditors();
+
+        loadSavedCode();
+
+
+        if(memoryStore.theme==="light"){
+
+            document.body.classList.add("light");
+
+        }
+
+
+        currentEditor=editors.html;
+
+
+        updateEditorTheme();
+
+
+        setTimeout(function(){
+
+            editors.html.refresh();
+            editors.css.refresh();
+            editors.js.refresh();
+
+        },100);
+
+    }
+);
+
+</script>
+
+</body>
+</html>
