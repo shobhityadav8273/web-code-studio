@@ -7,6 +7,11 @@ content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable
 
 <title>Shobhit's Web Code Studio</title>
 
+<!-- Font for Design Generator page -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
 <!-- CodeMirror -->
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
@@ -144,6 +149,52 @@ body.light .icon-btn{
 
 button:active{
     transform:scale(.96);
+}
+
+/* NAV DROPDOWN */
+
+.nav-menu{
+    position:absolute;
+    top:50px;
+    left:0;
+    min-width:150px;
+    background:#202720;
+    border:1px solid #39423d;
+    border-radius:10px;
+    padding:6px;
+    display:none;
+    flex-direction:column;
+    gap:2px;
+    z-index:10000;
+    box-shadow:0 8px 20px rgba(0,0,0,.35);
+}
+
+.nav-menu.show{
+    display:flex;
+}
+
+body.light .nav-menu{
+    background:#fff;
+    border-color:#c8ced2;
+}
+
+.nav-item{
+    padding:10px 12px;
+    border-radius:7px;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    user-select:none;
+}
+
+.nav-item:hover,
+.nav-item:active{
+    background:#303832;
+}
+
+body.light .nav-item:hover,
+body.light .nav-item:active{
+    background:#f0faf6;
 }
 
 /* TABS */
@@ -424,6 +475,865 @@ body.light .tool-btn{
         font-size:14px;
     }
 }
+
+/* ================================
+   DESIGN GENERATOR PAGE
+================================ */
+
+#designPage{
+    --dg-ink:#f2f4f3;
+    --dg-ink-soft:#9aa3a0;
+    --dg-line:#2c333a;
+    --dg-line-soft:#232830;
+    --dg-blue:#6d8dff;
+    --dg-blue-tint:#16213d;
+    --dg-purple:#a78bfa;
+    --dg-pink:#f472b6;
+    --dg-surface:#11151a;
+    --dg-canvas:#1b2029;
+    --dg-placeholder:#6b7278;
+    --dg-shadow-sm:0 1px 2px rgba(0,0,0,.4);
+    --dg-shadow-lg:0 10px 30px rgba(0,0,0,.45);
+    --dg-line-hover:#3a4048;
+
+    position:fixed;
+    inset:0;
+    z-index:100000;
+
+    display:none;
+
+    background:var(--dg-surface);
+    color:var(--dg-ink);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    -webkit-font-smoothing:antialiased;
+
+    overflow-y:auto;
+}
+
+body.light #designPage{
+    --dg-ink:#14161a;
+    --dg-ink-soft:#6b7078;
+    --dg-line:#e6e7eb;
+    --dg-line-soft:#eef0f3;
+    --dg-blue:#3d6bff;
+    --dg-blue-tint:#eef3ff;
+    --dg-purple:#8b5cf6;
+    --dg-pink:#ec4899;
+    --dg-surface:#ffffff;
+    --dg-canvas:#fbfbfc;
+    --dg-placeholder:#a6a9b1;
+    --dg-shadow-sm:0 1px 2px rgba(20,22,26,.06);
+    --dg-shadow-lg:0 10px 30px rgba(20,22,26,.06);
+    --dg-line-hover:#d3d6dc;
+}
+
+#designPage.show{
+    display:block;
+}
+
+#designPage *{
+    box-sizing:border-box;
+}
+
+#designPage .dg-back{
+    position:sticky;
+    top:0;
+    z-index:5;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    margin:16px 0 0 16px;
+    padding:9px 16px;
+    border:1px solid var(--dg-line);
+    border-radius:999px;
+    background:var(--dg-surface);
+    color:var(--dg-ink);
+    font-family:inherit;
+    font-size:13.5px;
+    font-weight:600;
+    cursor:pointer;
+    box-shadow:var(--dg-shadow-sm);
+}
+
+#designPage .dg-back:hover{
+    border-color:var(--dg-line-hover);
+}
+
+#designPage .dg-main{
+    max-width:1000px;
+    margin:0 auto;
+    padding:32px 24px 100px;
+}
+
+#designPage .hero{
+    text-align:center;
+    margin-bottom:56px;
+}
+
+#designPage .hero h1{
+    font-size:clamp(34px,5.4vw,58px);
+    line-height:1.08;
+    font-weight:800;
+    letter-spacing:-0.02em;
+    margin:0 0 22px;
+}
+
+#designPage .hero h1 .grad{
+    background:linear-gradient(100deg,var(--dg-pink) 10%,var(--dg-purple) 85%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+#designPage .hero p{
+    margin:0 auto;
+    max-width:480px;
+    font-size:18px;
+    line-height:1.55;
+}
+
+#designPage .hero .lead{
+    color:var(--dg-ink);
+    font-weight:500;
+}
+
+#designPage .hero .sub{
+    color:var(--dg-ink-soft);
+    font-size:15px;
+    margin-top:6px;
+}
+
+#designPage .composer-box{
+    background:var(--dg-surface);
+    border:1.5px solid transparent;
+    background-image:linear-gradient(var(--dg-surface),var(--dg-surface)),
+                      linear-gradient(120deg,rgba(61,107,255,.35),rgba(139,92,246,.35));
+    background-origin:border-box;
+    background-clip:padding-box,border-box;
+    border-radius:30px;
+    box-shadow:var(--dg-shadow-lg);
+    padding:26px 26px 20px;
+}
+
+#designPage textarea#prompt{
+    width:100%;
+    min-height:96px;
+    resize:none;
+    border:none;
+    outline:none;
+    background:transparent;
+    font-family:inherit;
+    font-size:18px;
+    line-height:1.5;
+    color:var(--dg-ink);
+    padding:6px 4px 18px;
+}
+
+#designPage textarea#prompt::placeholder{
+    color:var(--dg-placeholder);
+}
+
+#designPage textarea#prompt.shake{
+    animation:dgShake .32s ease;
+}
+
+@keyframes dgShake{
+    0%,100%{transform:translateX(0);}
+    25%{transform:translateX(-6px);}
+    75%{transform:translateX(6px);}
+}
+
+#designPage .type-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    padding:8px 4px 20px;
+}
+
+#designPage .type-card{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:14px 14px;
+    border:1.5px solid var(--dg-line);
+    border-radius:12px;
+    background:var(--dg-surface);
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+    user-select:none;
+}
+
+#designPage .type-card:hover{
+    border-color:var(--dg-line-hover);
+}
+
+#designPage .type-card:active{
+    transform:scale(.98);
+}
+
+#designPage .type-card svg{
+    flex:0 0 auto;
+    width:20px;
+    height:20px;
+    color:var(--dg-ink-soft);
+    transition:color .15s ease;
+}
+
+#designPage .type-card span{
+    font-size:14.5px;
+    font-weight:600;
+    color:var(--dg-ink);
+    transition:color .15s ease;
+}
+
+#designPage .type-card.selected{
+    border-color:var(--dg-blue);
+    background:var(--dg-blue-tint);
+}
+
+#designPage .type-card.selected svg,
+#designPage .type-card.selected span{
+    color:var(--dg-blue);
+}
+
+#designPage .style-chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    padding:4px 4px 20px;
+    border-bottom:1px solid var(--dg-line-soft);
+}
+
+#designPage .chip{
+    padding:9px 16px;
+    border:1.5px solid var(--dg-line);
+    border-radius:999px;
+    background:var(--dg-surface);
+    font-size:13.5px;
+    font-weight:500;
+    color:var(--dg-ink);
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease, color .15s ease, transform .1s ease;
+    user-select:none;
+}
+
+#designPage .chip:hover{
+    border-color:var(--dg-line-hover);
+    transform:translateY(-1px);
+}
+
+#designPage .chip.selected{
+    border-color:var(--dg-blue);
+    background:linear-gradient(100deg,rgba(61,107,255,.08),rgba(139,92,246,.08));
+    color:var(--dg-blue);
+}
+
+#designPage .toolbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding-top:14px;
+}
+
+#designPage .toolbar-left{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    position:relative;
+}
+
+#designPage .icon-round{
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    border:1.5px solid var(--dg-line);
+    background:var(--dg-surface);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    color:var(--dg-ink);
+    transition:border-color .15s ease, background .15s ease;
+    flex:0 0 auto;
+}
+
+#designPage .icon-round:hover{
+    border-color:var(--dg-line-hover);
+    background:var(--dg-canvas);
+}
+
+#designPage .icon-round svg{
+    width:16px;
+    height:16px;
+}
+
+#designPage .status-dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#22c55e;
+    flex:0 0 auto;
+}
+
+#designPage .model-select{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    cursor:pointer;
+    padding:6px 4px;
+    border-radius:8px;
+    user-select:none;
+}
+
+#designPage .model-select:hover{
+    background:var(--dg-canvas);
+}
+
+#designPage .model-select span{
+    font-size:14px;
+    font-weight:600;
+    color:var(--dg-ink);
+    white-space:nowrap;
+}
+
+#designPage .model-select svg{
+    width:13px;
+    height:13px;
+    color:var(--dg-ink-soft);
+    transition:transform .15s ease;
+}
+
+#designPage .model-select.open svg{
+    transform:rotate(180deg);
+}
+
+#designPage .model-menu{
+    position:absolute;
+    bottom:calc(100% + 10px);
+    left:0;
+    background:var(--dg-surface);
+    border:1px solid var(--dg-line);
+    border-radius:12px;
+    box-shadow:var(--dg-shadow-lg);
+    padding:6px;
+    min-width:180px;
+    display:none;
+    z-index:20;
+}
+
+#designPage .model-menu.show{
+    display:block;
+}
+
+#designPage .model-menu button{
+    width:100%;
+    text-align:left;
+    border:none;
+    background:none;
+    font-family:inherit;
+    font-size:14px;
+    font-weight:500;
+    color:var(--dg-ink);
+    padding:9px 10px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+#designPage .model-menu button:hover{
+    background:var(--dg-canvas);
+}
+
+#designPage .model-menu button.active{
+    color:var(--dg-blue);
+    font-weight:600;
+}
+
+#designPage .attach-menu{
+    position:absolute;
+    bottom:calc(100% + 10px);
+    left:0;
+    background:var(--dg-surface);
+    border:1px solid var(--dg-line);
+    border-radius:12px;
+    box-shadow:var(--dg-shadow-lg);
+    padding:6px;
+    min-width:190px;
+    display:none;
+    z-index:20;
+}
+
+#designPage .attach-menu.show{
+    display:block;
+}
+
+#designPage .attach-menu button{
+    width:100%;
+    text-align:left;
+    border:none;
+    background:none;
+    font-family:inherit;
+    font-size:14px;
+    color:var(--dg-ink);
+    padding:9px 10px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+#designPage .attach-menu button:hover{
+    background:var(--dg-canvas);
+}
+
+#designPage .send-btn{
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    border:none;
+    background:linear-gradient(135deg,#cfe0ff,#e7dcfb);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    color:#3d3f8f;
+    transition:transform .15s ease, box-shadow .15s ease;
+    flex:0 0 auto;
+}
+
+#designPage .send-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(61,107,255,.25);
+}
+
+#designPage .send-btn:active{
+    transform:translateY(0) scale(.96);
+}
+
+#designPage .send-btn svg{
+    width:20px;
+    height:20px;
+}
+
+#designPage .send-btn.loading svg{
+    animation:dgSpin .8s linear infinite;
+}
+
+@keyframes dgSpin{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+#designPage .examples{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:10px;
+    margin-top:26px;
+}
+
+#designPage .example-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 16px;
+    border-radius:999px;
+    border:1px solid var(--dg-line);
+    background:var(--dg-surface);
+    font-size:14px;
+    font-weight:500;
+    color:var(--dg-ink);
+    cursor:pointer;
+    transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+
+#designPage .example-pill:hover{
+    transform:translateY(-2px);
+    box-shadow:var(--dg-shadow-sm);
+    border-color:var(--dg-line-hover);
+}
+
+#designPage .preview{
+    margin-top:56px;
+    border:1.5px dashed var(--dg-line);
+    border-radius:24px;
+    padding:56px 24px;
+    text-align:center;
+    display:none;
+}
+
+#designPage .preview.show{
+    display:block;
+    animation:dgFadeUp .35s ease;
+}
+
+@keyframes dgFadeUp{
+    from{opacity:0;transform:translateY(10px);}
+    to{opacity:1;transform:translateY(0);}
+}
+
+#designPage .spinner{
+    width:34px;
+    height:34px;
+    margin:0 auto 20px;
+    border-radius:50%;
+    border:3px solid var(--dg-line-soft);
+    border-top-color:var(--dg-blue);
+    animation:dgSpin .8s linear infinite;
+}
+
+#designPage .preview h3{
+    font-size:19px;
+    font-weight:700;
+    margin:0 0 8px;
+}
+
+#designPage .preview p{
+    color:var(--dg-ink-soft);
+    font-size:14.5px;
+    margin:0 auto;
+    max-width:420px;
+    line-height:1.6;
+}
+
+#designPage .preview .meta{
+    display:inline-flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:8px;
+    margin-top:18px;
+}
+
+#designPage .preview .meta span{
+    font-size:12.5px;
+    font-weight:600;
+    padding:6px 12px;
+    border-radius:999px;
+    background:var(--dg-blue-tint);
+    color:var(--dg-blue);
+}
+
+@media(max-width:640px){
+
+    #designPage .dg-main{
+        padding:24px 16px 72px;
+    }
+
+    #designPage .hero{
+        margin-bottom:36px;
+    }
+
+    #designPage .hero p{
+        font-size:16px;
+    }
+
+    #designPage .composer-box{
+        padding:20px 16px 16px;
+        border-radius:24px;
+    }
+
+    #designPage textarea#prompt{
+        font-size:16px;
+        min-height:80px;
+    }
+
+    #designPage .type-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    #designPage .model-select span{
+        display:none;
+    }
+
+    #designPage .toolbar-left{
+        gap:6px;
+    }
+}
+
+/* ================================
+   CONTACT PAGE
+================================ */
+
+#contactPage{
+    position:fixed;
+    inset:0;
+    z-index:100000;
+
+    display:none;
+    overflow-y:auto;
+
+    background:#090d0b;
+    color:#fff;
+    font-family:Arial,sans-serif;
+}
+
+#contactPage.show{
+    display:block;
+}
+
+body.light #contactPage{
+    background:#f4f6f8;
+    color:#111;
+}
+
+#contactPage *{
+    box-sizing:border-box;
+}
+
+.contact-back{
+    position:sticky;
+    top:0;
+    z-index:5;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    margin:16px 0 0 16px;
+    padding:9px 16px;
+    border:1px solid #39423d;
+    border-radius:11px;
+    background:#202720;
+    color:#fff;
+    font-family:inherit;
+    font-size:13.5px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.contact-back:hover{
+    background:#303832;
+}
+
+body.light .contact-back{
+    background:#fff;
+    color:#111;
+    border-color:#c8ced2;
+}
+
+body.light .contact-back:hover{
+    background:#f0faf6;
+}
+
+.contact-wrap{
+    max-width:560px;
+    margin:0 auto;
+    padding:36px 20px 80px;
+}
+
+.contact-heading{
+    text-align:center;
+    font-size:clamp(26px,5.5vw,34px);
+    font-weight:bold;
+    color:#00e89a;
+    margin-bottom:10px;
+    letter-spacing:-.01em;
+}
+
+body.light .contact-heading{
+    color:#048a5e;
+}
+
+.contact-sub{
+    text-align:center;
+    color:#8b9891;
+    font-size:14.5px;
+    line-height:1.6;
+    max-width:420px;
+    margin:0 auto 30px;
+}
+
+body.light .contact-sub{
+    color:#5b6a63;
+}
+
+.contact-card{
+    background:#161c18;
+    border:1px solid #29312c;
+    border-radius:16px;
+    padding:26px 22px 24px;
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
+}
+
+body.light .contact-card{
+    background:#fff;
+    border-color:#d8dde1;
+    box-shadow:0 10px 30px rgba(20,22,26,.08);
+}
+
+.field{
+    margin-bottom:20px;
+}
+
+.field label{
+    display:block;
+    font-size:13px;
+    font-weight:700;
+    margin-bottom:7px;
+    color:#c9d1cb;
+}
+
+body.light .field label{
+    color:#33393e;
+}
+
+.field input,
+.field textarea{
+    width:100%;
+    background:#202720;
+    border:1px solid #39423d;
+    border-radius:10px;
+    color:#fff;
+    font-family:inherit;
+    font-size:15px;
+    padding:12px 14px;
+    outline:none;
+    transition:border-color .15s ease, box-shadow .15s ease;
+}
+
+body.light .field input,
+body.light .field textarea{
+    background:#fff;
+    border-color:#c8ced2;
+    color:#111;
+}
+
+.field input::placeholder,
+.field textarea::placeholder{
+    color:#7b857e;
+}
+
+body.light .field input::placeholder,
+body.light .field textarea::placeholder{
+    color:#9aa2a8;
+}
+
+.field input:focus,
+.field textarea:focus,
+.field input:focus-visible,
+.field textarea:focus-visible{
+    border-color:#00e89a;
+    box-shadow:0 0 0 3px rgba(0,232,154,.2);
+}
+
+.field textarea{
+    min-height:130px;
+    resize:vertical;
+}
+
+.field-error{
+    display:none;
+    color:#ff8080;
+    font-size:12.5px;
+    font-weight:600;
+    margin-top:6px;
+}
+
+.field.invalid input,
+.field.invalid textarea{
+    border-color:#ff6b6b;
+}
+
+.field.invalid .field-error{
+    display:block;
+}
+
+.turnstile-wrap{
+    margin:4px 0 22px;
+}
+
+.turnstile-wrap.invalid .field-error{
+    display:block;
+}
+
+.turnstile-note{
+    font-size:12.5px;
+    line-height:1.6;
+    color:#8b9891;
+    background:#202720;
+    border:1px dashed #39423d;
+    border-radius:10px;
+    padding:10px 12px;
+    display:none;
+}
+
+.turnstile-note.show{
+    display:block;
+}
+
+body.light .turnstile-note{
+    color:#5b6a63;
+    background:#f4f6f8;
+    border-color:#c8ced2;
+}
+
+.contact-send{
+    width:100%;
+    height:48px;
+    border:0;
+    border-radius:11px;
+    background:#ec2671;
+    color:#fff;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:opacity .15s ease, transform .1s ease;
+}
+
+.contact-send:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+.contact-status{
+    display:none;
+    margin-top:16px;
+    padding:12px 14px;
+    border-radius:10px;
+    font-size:13.5px;
+    font-weight:600;
+    line-height:1.5;
+}
+
+.contact-status.show{
+    display:block;
+}
+
+.contact-status.success{
+    background:#102a20;
+    color:#00e89a;
+    border:1px solid #1d4636;
+}
+
+.contact-status.error{
+    background:#2a1414;
+    color:#ff8080;
+    border:1px solid #4a2323;
+}
+
+body.light .contact-status.success{
+    background:#eafff6;
+    border-color:#b6f0d8;
+    color:#049c6b;
+}
+
+body.light .contact-status.error{
+    background:#fff0f0;
+    border-color:#f3c6c6;
+    color:#c23434;
+}
+
+@media(max-width:640px){
+
+    .contact-wrap{
+        padding:24px 14px 72px;
+    }
+
+    .contact-card{
+        padding:20px 16px 20px;
+        border-radius:14px;
+    }
+
+    .field input,
+    .field textarea{
+        font-size:16px;
+    }
+}
 </style>
 </head>
 
@@ -453,7 +1363,37 @@ body.light .tool-btn{
 
     </div>
 
-    <div class="actions">
+    <div class="actions" style="position:relative;">
+
+        <button id="menuBtn"
+                class="icon-btn"
+                onclick="toggleNavMenu()">
+            ☰
+        </button>
+
+        <div id="navMenu" class="nav-menu">
+
+            <div class="nav-item" onclick="handleNavClick('home')">
+                Home
+            </div>
+
+            <div class="nav-item" onclick="handleNavClick('editor')">
+                Editor
+            </div>
+
+            <div class="nav-item" onclick="handleNavClick('design')">
+                Design
+            </div>
+
+            <div class="nav-item" onclick="handleNavClick('contact')">
+                Contact
+            </div>
+
+            <div class="nav-item" onclick="handleNavClick('about')">
+                About
+            </div>
+
+        </div>
 
         <button class="icon-btn"
                 onclick="showHelp()">
@@ -595,6 +1535,243 @@ body.light .tool-btn{
 
 </div>
 
+<!-- DESIGN GENERATOR PAGE -->
+
+<div id="designPage">
+
+    <button class="dg-back" onclick="closeDesignPage()">← Back to editor</button>
+
+    <div class="dg-main">
+
+        <section class="hero">
+            <h1>Design Screens <span class="grad">with AI</span></h1>
+            <p class="lead">Describe your idea and watch the screens appear.</p>
+            <p class="sub">No design skills needed.</p>
+        </section>
+
+        <section class="composer">
+
+            <div class="composer-box">
+
+                <textarea id="prompt" placeholder="Describe what you want to design..."></textarea>
+
+                <div class="type-grid" id="typeGrid">
+
+                    <div class="type-card" data-type="Website" onclick="selectType(this)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="15" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><circle cx="6.3" cy="6.7" r=".6" fill="currentColor" stroke="none"/><circle cx="8.3" cy="6.7" r=".6" fill="currentColor" stroke="none"/></svg>
+                        <span>Website</span>
+                    </div>
+
+                    <div class="type-card selected" data-type="Mobile app" onclick="selectType(this)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="2.75" width="11" height="18.5" rx="2.4"/><line x1="10.4" y1="18.4" x2="13.6" y2="18.4"/></svg>
+                        <span>Mobile app</span>
+                    </div>
+
+                    <div class="type-card" data-type="Dashboard" onclick="selectType(this)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="9" rx="1.5"/><rect x="13.5" y="3" width="7.5" height="5.5" rx="1.5"/><rect x="13.5" y="11" width="7.5" height="10" rx="1.5"/><rect x="3" y="14.5" width="7.5" height="6.5" rx="1.5"/></svg>
+                        <span>Dashboard</span>
+                    </div>
+
+                    <div class="type-card" data-type="Slides" onclick="selectType(this)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="16" height="11" rx="1.8"/><path d="M8 20.5h8"/><path d="M12 16.5v4"/></svg>
+                        <span>Slides</span>
+                    </div>
+
+                    <div class="type-card" data-type="Résumé" onclick="selectType(this)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.75h9l3 3v15.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3.75a1 1 0 0 1 1-1z"/><path d="M15 2.75v3h3"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="15.4" x2="16" y2="15.4"/><line x1="8" y1="18.8" x2="13" y2="18.8"/></svg>
+                        <span>Résumé</span>
+                    </div>
+
+                    <div class="type-card" data-type="Poster" onclick="selectType(this)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3.5" width="18" height="17" rx="2"/><circle cx="8.3" cy="9" r="1.7"/><path d="M3 16.5l5.2-5 4 3.8 3-2.8 5.8 5"/></svg>
+                        <span>Poster</span>
+                    </div>
+
+                </div>
+
+                <div class="style-chips" id="styleChips">
+                    <div class="chip" onclick="selectChip(this)">Clean &amp; minimal</div>
+                    <div class="chip" onclick="selectChip(this)">Playful &amp; colorful</div>
+                    <div class="chip" onclick="selectChip(this)">Bold &amp; dark</div>
+                    <div class="chip" onclick="selectChip(this)">Corporate &amp; trustworthy</div>
+                    <div class="chip" onclick="selectChip(this)">Elegant &amp; luxurious</div>
+                    <div class="chip" onclick="selectChip(this)">Wireframe first</div>
+                </div>
+
+                <div class="toolbar">
+
+                    <div class="toolbar-left">
+
+                        <div class="icon-round" onclick="toggleAttachMenu(event)" aria-label="Add attachment">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        </div>
+
+                        <div class="attach-menu" id="attachMenu">
+                            <button type="button" onclick="closeDgMenus()">Upload a reference image</button>
+                            <button type="button" onclick="closeDgMenus()">Attach a file</button>
+                            <button type="button" onclick="closeDgMenus()">Paste a link</button>
+                        </div>
+
+                        <span class="status-dot"></span>
+
+                        <div class="model-select" id="modelSelect" onclick="toggleModelMenu(event)">
+                            <span id="modelLabel">GPT 5.6 Luna</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                        </div>
+
+                        <div class="model-menu" id="modelMenu">
+                            <button type="button" class="active" onclick="selectModel(this,'GPT 5.6 Luna')">GPT 5.6 Luna</button>
+                            <button type="button" onclick="selectModel(this,'GPT 5.6 Sol')">GPT 5.6 Sol</button>
+                        </div>
+
+                    </div>
+
+                    <button class="send-btn" id="sendBtn" onclick="handleGenerate()" aria-label="Generate">
+                        <svg id="sendIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="6 11 12 5 18 11"/></svg>
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="examples">
+            <div class="example-pill" onclick="useExample('coffee')">☕ Coffee shop</div>
+            <div class="example-pill" onclick="useExample('fitness')">💪 Fitness app</div>
+            <div class="example-pill" onclick="useExample('sales')">▦ Sales dashboard</div>
+            <div class="example-pill" onclick="useExample('pitch')">🖥 Pitch deck</div>
+            <div class="example-pill" onclick="useExample('event')">📣 Event poster</div>
+        </section>
+
+        <section class="preview" id="previewSection">
+            <div class="spinner" id="previewSpinner"></div>
+            <h3 id="previewTitle">Your design is being generated...</h3>
+            <p id="previewText">This usually takes a few seconds. We'll show your screens here as soon as they're ready.</p>
+            <div class="meta" id="previewMeta"></div>
+        </section>
+
+    </div>
+
+</div>
+
+<!-- Cloudflare Turnstile (anti-spam for Contact form) -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<!-- CONTACT PAGE -->
+
+<div id="contactPage">
+
+    <button class="contact-back" onclick="closeContactPage()">← Back</button>
+
+    <div class="contact-wrap">
+
+        <h1 class="contact-heading">Get in touch with us!</h1>
+
+        <p class="contact-sub">
+            Have a question, feedback, or an idea? Send us a message and
+            we'll get back to you soon.
+        </p>
+
+        <form id="contactForm"
+              class="contact-card"
+              novalidate
+              onsubmit="return handleContactSubmit(event)">
+
+            <div class="field" id="nameField">
+
+                <label for="contactName">Name</label>
+
+                <input type="text"
+                       id="contactName"
+                       name="name"
+                       placeholder="Enter your name"
+                       autocomplete="name"
+                       maxlength="120"
+                       required
+                       aria-describedby="nameError">
+
+                <div class="field-error" id="nameError" role="alert">
+                    Please enter your name.
+                </div>
+
+            </div>
+
+            <div class="field" id="emailField">
+
+                <label for="contactEmail">Email</label>
+
+                <input type="email"
+                       id="contactEmail"
+                       name="email"
+                       placeholder="Enter your e-mail"
+                       autocomplete="email"
+                       maxlength="180"
+                       required
+                       aria-describedby="emailError">
+
+                <div class="field-error" id="emailError" role="alert">
+                    Please enter a valid email address.
+                </div>
+
+            </div>
+
+            <div class="field" id="messageField">
+
+                <label for="contactMessage">Message</label>
+
+                <textarea id="contactMessage"
+                          name="message"
+                          placeholder="Enter message"
+                          maxlength="3000"
+                          required
+                          aria-describedby="messageError"></textarea>
+
+                <div class="field-error" id="messageError" role="alert">
+                    Please enter your message.
+                </div>
+
+            </div>
+
+            <div class="turnstile-wrap" id="turnstileWrap">
+
+                <div class="cf-turnstile"
+                     id="turnstileWidget"
+                     data-sitekey="YOUR_TURNSTILE_SITE_KEY"
+                     data-callback="onTurnstileSuccess"
+                     data-expired-callback="onTurnstileExpired"
+                     data-error-callback="onTurnstileExpired">
+                </div>
+
+                <div class="turnstile-note" id="turnstileNote">
+                    Anti-spam verification isn't configured yet for this
+                    deployment (missing Turnstile site key), so it's
+                    skipped in this development build — see
+                    CONTACT_SETUP.md.
+                </div>
+
+                <div class="field-error" id="captchaError" role="alert">
+                    Please complete the verification.
+                </div>
+
+            </div>
+
+            <button type="submit" class="contact-send" id="contactSendBtn">
+                Send
+            </button>
+
+            <div class="contact-status"
+                 id="contactStatus"
+                 role="status"
+                 aria-live="polite">
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
 <script>
 
 /* ================================
@@ -684,7 +1861,7 @@ function createEditors(){
         document.getElementById("html-editor"),
         {
             value:defaultHTML,
-            mode:"xml",
+            mode:{name:"xml",htmlMode:true},
             theme:"material-darker",
             lineNumbers:true,
             lineWrapping:false,
@@ -1163,6 +2340,580 @@ if(window.visualViewport){
         "scroll",
         positionToolbar
     );
+}
+
+
+/* ================================
+   NAV MENU
+================================ */
+
+function toggleNavMenu(){
+
+    document.getElementById("navMenu")
+        .classList.toggle("show");
+}
+
+
+function closeNavMenu(){
+
+    document.getElementById("navMenu")
+        .classList.remove("show");
+}
+
+
+document.addEventListener("click",function(e){
+
+    const menu=document.getElementById("navMenu");
+    const btn=document.getElementById("menuBtn");
+
+    if(!menu.contains(e.target) && e.target!==btn){
+        closeNavMenu();
+    }
+});
+
+
+function handleNavClick(item){
+
+    closeNavMenu();
+
+    if(item==="home"){
+
+        switchTab("html");
+
+    }
+
+    else if(item==="editor"){
+
+        switchTab("html");
+
+    }
+
+    else if(item==="design"){
+
+        openDesignPage();
+
+    }
+
+    else if(item==="contact"){
+
+        openContactPage();
+
+    }
+
+    else if(item==="about"){
+
+        alert(
+`About - Shobhit's Web Code Studio
+
+Yeh ek mobile-friendly online code editor hai jisme aap
+seedhe browser mein HTML, CSS aur JavaScript likh kar
+turant result dekh sakte hain - koi installation nahi
+chahiye.
+
+Kaise kaam karta hai:
+• HTML, CSS, JS ke liye alag-alag tabs, taaki code
+  organize rahe.
+• CodeMirror editor engine, jisme syntax highlighting,
+  auto bracket/tag closing aur line numbers milte hain.
+• RUN button teenon code files ko jodkar ek live
+  preview banata hai aur Output tab mein dikhata hai
+  (isliye HTML ke sirf <body> ka content use hota hai).
+• Mobile keyboard toolbar mein zaroori symbols
+  ( < > { } " ' = / TAB, arrow keys ) ek tap mein
+  milte hain, jo phone par type karna aasan banate hain.
+• Day/Night theme switch aur is session ke liye
+  code memory mein save rehta hai.
+
+Short mein: yeh chhota, browser-based HTML/CSS/JS
+playground hai, seekhne aur jaldi test karne ke liye.`
+        );
+
+    }
+}
+
+
+/* ================================
+   DESIGN GENERATOR PAGE
+================================ */
+
+function openDesignPage(){
+
+    document.getElementById("designPage")
+        .classList.add("show");
+
+    hideKeyboardToolbar();
+
+    currentEditor=null;
+}
+
+
+function closeDesignPage(){
+
+    document.getElementById("designPage")
+        .classList.remove("show");
+
+    switchTab(currentTab==="output" || !currentTab ? "html" : currentTab);
+}
+
+
+/* ================================
+   CONTACT PAGE
+================================ */
+
+/* If your backend runs on a different origin than this page,
+   change this to the full URL, e.g. "https://your-api.example.com/api/contact" */
+const CONTACT_API_URL="/api/contact";
+
+let turnstileToken=null;
+
+
+function openContactPage(){
+
+    document.getElementById("contactPage")
+        .classList.add("show");
+
+    hideKeyboardToolbar();
+
+    currentEditor=null;
+
+    initTurnstileNotice();
+}
+
+
+function closeContactPage(){
+
+    document.getElementById("contactPage")
+        .classList.remove("show");
+
+    switchTab(currentTab==="output" || !currentTab ? "html" : currentTab);
+}
+
+
+function initTurnstileNotice(){
+
+    const widget=document.getElementById("turnstileWidget");
+    const note=document.getElementById("turnstileNote");
+
+    const configured = widget.dataset.sitekey &&
+        widget.dataset.sitekey!=="YOUR_TURNSTILE_SITE_KEY";
+
+    if(configured){
+
+        note.classList.remove("show");
+        widget.style.display="";
+
+    }
+    else{
+
+        widget.style.display="none";
+        note.classList.add("show");
+    }
+}
+
+
+function onTurnstileSuccess(token){
+
+    turnstileToken=token;
+
+    clearContactFieldError("turnstileWrap","captchaError");
+}
+
+
+function onTurnstileExpired(){
+
+    turnstileToken=null;
+}
+
+
+function setContactFieldError(fieldId,errorId,message){
+
+    const field=document.getElementById(fieldId);
+    const errorEl=document.getElementById(errorId);
+
+    if(field){
+        field.classList.add("invalid");
+    }
+
+    if(errorEl && message){
+        errorEl.textContent=message;
+    }
+}
+
+
+function clearContactFieldError(fieldId,errorId){
+
+    const field=document.getElementById(fieldId);
+
+    if(field){
+        field.classList.remove("invalid");
+    }
+}
+
+
+function isValidContactEmail(value){
+
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+
+function showContactStatus(type,message){
+
+    const status=document.getElementById("contactStatus");
+
+    status.className="contact-status show "+type;
+    status.textContent=message;
+}
+
+
+function hideContactStatus(){
+
+    const status=document.getElementById("contactStatus");
+
+    status.className="contact-status";
+    status.textContent="";
+}
+
+
+async function handleContactSubmit(e){
+
+    e.preventDefault();
+
+    clearContactFieldError("nameField","nameError");
+    clearContactFieldError("emailField","emailError");
+    clearContactFieldError("messageField","messageError");
+    clearContactFieldError("turnstileWrap","captchaError");
+
+    hideContactStatus();
+
+    const nameEl=document.getElementById("contactName");
+    const emailEl=document.getElementById("contactEmail");
+    const messageEl=document.getElementById("contactMessage");
+
+    const name=nameEl.value.trim();
+    const email=emailEl.value.trim();
+    const message=messageEl.value.trim();
+
+    let valid=true;
+
+    if(!name){
+
+        setContactFieldError("nameField","nameError","Please enter your name.");
+        valid=false;
+    }
+
+    if(!email){
+
+        setContactFieldError("emailField","emailError","Please enter your email.");
+        valid=false;
+
+    }
+    else if(!isValidContactEmail(email)){
+
+        setContactFieldError("emailField","emailError","Please enter a valid email address.");
+        valid=false;
+    }
+
+    if(!message){
+
+        setContactFieldError("messageField","messageError","Please enter your message.");
+        valid=false;
+
+    }
+    else if(message.length>3000){
+
+        setContactFieldError("messageField","messageError","Your message is too long. Please shorten it.");
+        valid=false;
+    }
+
+    const widget=document.getElementById("turnstileWidget");
+
+    const turnstileConfigured = widget.dataset.sitekey &&
+        widget.dataset.sitekey!=="YOUR_TURNSTILE_SITE_KEY";
+
+    if(turnstileConfigured && !turnstileToken){
+
+        setContactFieldError("turnstileWrap","captchaError","Please complete the verification.");
+        valid=false;
+    }
+
+    if(!valid){
+        return false;
+    }
+
+    const sendBtn=document.getElementById("contactSendBtn");
+    const originalLabel=sendBtn.textContent;
+
+    sendBtn.disabled=true;
+    sendBtn.textContent="Sending...";
+
+    try{
+
+        const response=await fetch(CONTACT_API_URL,{
+            method:"POST",
+            headers:{ "Content-Type":"application/json" },
+            body:JSON.stringify({
+                name:name,
+                email:email,
+                message:message,
+                captchaToken:turnstileToken
+            })
+        });
+
+        let data=null;
+
+        try{
+            data=await response.json();
+        }
+        catch(_){
+            data=null;
+        }
+
+        if(response.ok && data && data.success){
+
+            showContactStatus(
+                "success",
+                "Thank you! Your message has been sent successfully."
+            );
+
+            document.getElementById("contactForm").reset();
+
+            turnstileToken=null;
+
+            if(window.turnstile && turnstileConfigured){
+                window.turnstile.reset();
+            }
+
+        }
+        else{
+
+            showContactStatus(
+                "error",
+                (data && data.message) || "Sorry, something went wrong. Please try again later."
+            );
+        }
+
+    }
+    catch(err){
+
+        showContactStatus(
+            "error",
+            "Sorry, something went wrong. Please try again later."
+        );
+
+    }
+    finally{
+
+        sendBtn.disabled=false;
+        sendBtn.textContent=originalLabel;
+    }
+
+    return false;
+}
+
+
+let dgSelectedType="Mobile app";
+let dgSelectedStyle=null;
+
+const dgExamplePrompts={
+    coffee:{
+        text:"A cozy neighborhood coffee shop website with a menu, story, and online ordering.",
+        type:"Website"
+    },
+    fitness:{
+        text:"A fitness app with workout tracking, progress charts, and a weekly plan.",
+        type:"Mobile app"
+    },
+    sales:{
+        text:"A sales dashboard showing revenue trends, top deals, and team performance.",
+        type:"Dashboard"
+    },
+    pitch:{
+        text:"An investor pitch deck for an early-stage startup, ten slides, clean and confident.",
+        type:"Slides"
+    },
+    event:{
+        text:"A bold poster for a weekend music festival with lineup and ticket details.",
+        type:"Poster"
+    }
+};
+
+
+function selectType(card){
+
+    document.querySelectorAll("#designPage .type-card")
+        .forEach(function(c){
+            c.classList.remove("selected");
+        });
+
+    card.classList.add("selected");
+
+    dgSelectedType=card.dataset.type;
+}
+
+
+function selectTypeByName(name){
+
+    const card=document.querySelector(
+        '#designPage .type-card[data-type="'+name+'"]'
+    );
+
+    if(card){
+        selectType(card);
+    }
+}
+
+
+function selectChip(chip){
+
+    const already=chip.classList.contains("selected");
+
+    document.querySelectorAll("#designPage .chip")
+        .forEach(function(c){
+            c.classList.remove("selected");
+        });
+
+    if(!already){
+
+        chip.classList.add("selected");
+        dgSelectedStyle=chip.textContent.trim();
+
+    }
+    else{
+
+        dgSelectedStyle=null;
+    }
+}
+
+
+function useExample(key){
+
+    const example=dgExamplePrompts[key];
+
+    if(!example){
+        return;
+    }
+
+    const textarea=document.getElementById("prompt");
+
+    textarea.value=example.text;
+    textarea.focus();
+
+    selectTypeByName(example.type);
+}
+
+
+function toggleAttachMenu(e){
+
+    e.stopPropagation();
+
+    closeDgMenus("attach");
+
+    document.getElementById("attachMenu")
+        .classList.toggle("show");
+}
+
+
+function toggleModelMenu(e){
+
+    e.stopPropagation();
+
+    closeDgMenus("model");
+
+    document.getElementById("modelMenu")
+        .classList.toggle("show");
+
+    document.getElementById("modelSelect")
+        .classList.toggle("open");
+}
+
+
+function selectModel(btn,name){
+
+    document.getElementById("modelLabel").textContent=name;
+
+    document.querySelectorAll("#modelMenu button")
+        .forEach(function(b){
+            b.classList.remove("active");
+        });
+
+    btn.classList.add("active");
+
+    closeDgMenus();
+}
+
+
+function closeDgMenus(except){
+
+    if(except!=="attach"){
+        document.getElementById("attachMenu").classList.remove("show");
+    }
+
+    if(except!=="model"){
+        document.getElementById("modelMenu").classList.remove("show");
+        document.getElementById("modelSelect").classList.remove("open");
+    }
+}
+
+
+document.addEventListener("click",function(){
+    closeDgMenus();
+});
+
+
+function handleGenerate(){
+
+    const textarea=document.getElementById("prompt");
+    const value=textarea.value.trim();
+
+    if(!value){
+
+        textarea.classList.remove("shake");
+
+        void textarea.offsetWidth;
+
+        textarea.classList.add("shake");
+
+        textarea.focus();
+
+        return;
+    }
+
+    const sendBtn=document.getElementById("sendBtn");
+    const sendIcon=document.getElementById("sendIcon");
+    const previewSection=document.getElementById("previewSection");
+    const previewSpinner=document.getElementById("previewSpinner");
+    const previewTitle=document.getElementById("previewTitle");
+    const previewText=document.getElementById("previewText");
+    const previewMeta=document.getElementById("previewMeta");
+
+    sendBtn.classList.add("loading");
+    sendIcon.style.opacity="0.4";
+
+    previewSection.classList.add("show");
+    previewSpinner.style.display="block";
+
+    previewTitle.textContent="Your design is being generated...";
+    previewText.textContent="This usually takes a few seconds. We'll show your screens here as soon as they're ready.";
+
+    previewMeta.innerHTML="<span>"+dgSelectedType+"</span>"+
+        (dgSelectedStyle ? "<span>"+dgSelectedStyle+"</span>" : "");
+
+    previewSection.scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+    });
+
+    setTimeout(function(){
+
+        sendBtn.classList.remove("loading");
+        sendIcon.style.opacity="1";
+
+        previewSpinner.style.display="none";
+
+        previewTitle.textContent="Preview ready";
+        previewText.textContent="This is a demo experience, so no screens were actually generated \u2014 wire this area up to your design engine to render real output here.";
+
+    },1800);
 }
 
 
